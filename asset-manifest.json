@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/ConversorDeMedida-React/static/css/main.e7dd246f.css",
+    "main.js": "/ConversorDeMedida-React/static/js/main.3ebad465.js",
+    "static/js/453.48d62cff.chunk.js": "/ConversorDeMedida-React/static/js/453.48d62cff.chunk.js",
+    "index.html": "/ConversorDeMedida-React/index.html",
+    "main.e7dd246f.css.map": "/ConversorDeMedida-React/static/css/main.e7dd246f.css.map",
+    "main.3ebad465.js.map": "/ConversorDeMedida-React/static/js/main.3ebad465.js.map",
+    "453.48d62cff.chunk.js.map": "/ConversorDeMedida-React/static/js/453.48d62cff.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.e7dd246f.css",
+    "static/js/main.3ebad465.js"
+  ]
+}
