@@ -1,9 +1,12 @@
 import React, { useState } from 'react';
 
 const Conversor = () => {
-    const [valor, setValor] = useState(0);
-    const [unidadeOrigem, setUnidadeOrigem] = useState('metros');
-    const [unidadeDestino, setUnidadeDestino] = useState('centimetros');
+    const [valorComprimento, setvalorComprimento] = useState(0);
+    const [valorPeso, setvalorPeso] = useState(0);
+    const [valorLiquido, setvalorLiquido] = useState(0);
+    const [unidadeOrigem, setUnidadeOrigem] = useState('Selecione');
+    const [unidadeDestino, setUnidadeDestino] = useState('Selecione');
+
     const [resultadoComprimento, setResultadoComprimento] = useState(null);
     const [erroComprimento, setErroComprimento] = useState('');
     
@@ -11,14 +14,22 @@ const Conversor = () => {
     const [erroPeso, setErroPeso] = useState('');
 
     const [resultadoLiquidos, setResultadoLiquidos] = useState(null);
-    const [erroLiquidos, setErroLiquidos] = useState('');
+    const [erroLiquido, setErroLiquidos] = useState('');
 
     const [erro, setErro] = useState(null); // Estado para armazenar erros
 
-    const handleValorChange = (e) => {
-        setValor(e.target.value);
+    const handleValorComprimentoChange = (e) => {
+        setvalorComprimento(e.target.value);
         setResultadoComprimento(null); // Limpa o resultado específico
+        setErroComprimento('');
+    };
+    const handleValorPesoChange = (e) => {
+        setvalorPeso(e.target.value);
         setResultadoPeso(null); // Limpa o resultado específico
+        setErroPeso('');
+    };
+    const handleValorLiquidoChange = (e) => {
+        setvalorLiquido(e.target.value);
         setResultadoLiquidos(null); // Limpa o resultado específico
         setErro('');
     };
@@ -47,13 +58,13 @@ const Conversor = () => {
             let url = '';
             switch (tipoConversor) {
                 case 'comprimento':
-                    url = `https://localhost:7084/api/conversorComprimento/comprimento?valor=${valor}&unidadeOrigem=${unidadeOrigem}&unidadeDestino=${unidadeDestino}`;
+                    url = `https://localhost:7084/api/conversorComprimento/comprimento?valor=${valorComprimento}&unidadeOrigem=${unidadeOrigem}&unidadeDestino=${unidadeDestino}`;
                     break;
                 case 'peso':
-                    url = `https://localhost:7084/api/conversorPeso/peso?valor=${valor}&unidadeOrigem=${unidadeOrigem}&unidadeDestino=${unidadeDestino}`;
+                    url = `https://localhost:7084/api/ConversorPeso/peso?valor=${valorPeso}&unidadeOrigem=${unidadeOrigem}&unidadeDestino=${unidadeDestino}`;
                     break;
                 case 'liquidos':
-                    url = `https://localhost:7084/api/conversorLiquido/liquidos?valor=${valor}&unidadeOrigem=${unidadeOrigem}&unidadeDestino=${unidadeDestino}`;
+                    url = `https://localhost:7084/api/ConversorLiquido/liquido?valor=${valorLiquido}&unidadeOrigem=${unidadeOrigem}&unidadeDestino=${unidadeDestino}`;
                     break;
                 default:
                     throw new Error("Tipo de conversor inválido");
@@ -91,7 +102,7 @@ const Conversor = () => {
 
     return (
         <div className="p-4 flex flex-col items-center justify-center min-h-screen bg-gray-100">
-            <h1 className="text-4xl font-bold text-blue-500 mb-6">Conversor de Medidas</h1>
+            <h1 className="text-4xl font-bold text-blue-500 mb-6">Convertendo Medidas</h1>
 
             {/* Contêiner dos cards */}
             <div className="flex flex-wrap justify-between gap-4 w-full max-w-5xl">
@@ -99,39 +110,41 @@ const Conversor = () => {
                 <div className="bg-white shadow-lg rounded-lg p-6 flex-1 min-w-[250px] max-w-[300px]">
                     <h2 className="text-2xl font-semibold text-gray-700 mb-4">Conversor de Comprimento</h2>
 
-            <div className="flex items-center mb-4">
-                <label htmlFor="valor" className="mr-2 text-lg">Valor:</label>
-                <input
-                    id="valor"
-                    type="number"
-                    placeholder="Digite o valor"
-                    value={valor}
-                            onChange={handleValorChange}
+                    <div className="flex items-center mb-4">
+                        <label htmlFor="valorComprimento" className="mr-2 text-lg">Valor:</label>
+                        <input
+                            id="valorComprimento"
+                            type="number"
+                            placeholder="Digite o valor"
+                            value={valorComprimento}
+                            onChange={handleValorComprimentoChange}
                             className="border p-2 rounded w-full"
-                />
-            </div>
-            <div className="flex items-center mb-4">
+                        />
+                    </div>
+                    <div className="flex items-center mb-4">
                         <div className="flex flex-col mr-4 w-full">
-                    <label htmlFor="unidadeOrigem" className="mb-2 text-lg">Unidade de Origem:</label>
-                    <select
-                        id="unidadeOrigem"
-                        value={unidadeOrigem}
+                            <label htmlFor="unidadeOrigem" className="mb-2 text-lg">Unidade de Origem:</label>
+                            <select
+                                id="unidadeOrigem"
+                                value={unidadeOrigem}
                                 onChange={handleUnidadeOrigemChange}
                                 className="border p-2 rounded w-full"
-                    >
+                            >
+                                <option value="Selecione">Selecione...</option>
                                 <option value="Metros">Metros</option>
-                        <option value="centimetros">Centímetros</option>
+                                <option value="centimetros">Centímetros</option>
                                 <option value="Polegadas">Polegadas</option>
-                    </select>
-                </div>
+                            </select>
+                        </div>
                         <div className="flex flex-col w-full">
-                    <label htmlFor="unidadeDestino" className="mb-2 text-lg">Unidade de Destino:</label>
-                    <select
-                        id="unidadeDestino"
-                        value={unidadeDestino}
+                            <label htmlFor="unidadeDestino" className="mb-2 text-lg">Unidade de Destino:</label>
+                            <select
+                                id="unidadeDestino"
+                                value={unidadeDestino}
                                 onChange={handleUnidadeDestinoChange}
                                 className="border p-2 rounded w-full"
                             >
+                                <option value="Selecione">Selecione...</option>
                                 <option value="Metros">Metros</option>
                                 <option value="centimetros">Centímetros</option>
                                 <option value="Polegadas">Polegadas</option>
@@ -142,7 +155,7 @@ const Conversor = () => {
 
                     {resultadoComprimento !== null && (
                         <div role="alert" className="mt-4 p-2 text-green-700 bg-green-200 border border-green-300 rounded">
-                            {valor} {unidadeOrigem} é o mesmo que {resultadoComprimento} {unidadeDestino}
+                            {valorComprimento} {unidadeOrigem} é o mesmo que {resultadoComprimento} {unidadeDestino}
                         </div>
                     )}
 
@@ -157,25 +170,26 @@ const Conversor = () => {
                 <div className="bg-white shadow-lg rounded-lg p-6 flex-1 min-w-[250px] max-w-[300px]">
                     <h2 className="text-2xl font-semibold text-gray-700 mb-4">Conversor de Peso</h2>
                     <div className="flex items-center mb-4">
-                        <label htmlFor="peso" className="mr-2 text-lg">Peso:</label>
+                        <label htmlFor="valorPeso" className="mr-2 text-lg">Peso:</label>
                         <input
-                            id="peso"
+                            id="valorPeso"
                             type="number"
                             placeholder="Digite o valor"
-                            value={valor}
-                            onChange={handleValorChange}
+                            value={valorPeso}
+                            onChange={handleValorPesoChange}
                             className="border p-2 rounded w-full"
                         />
                     </div>
                     <div className="flex items-center mb-4">
                         <div className="flex flex-col mr-4 w-full">
-                            <label htmlFor="unidadeOrigemPeso" className="mb-2 text-lg">Unidade de Origem:</label>
+                            <label htmlFor="unidadeOrigem" className="mb-2 text-lg">Unidade de Origem:</label>
                             <select
-                                id="unidadeOrigemPeso"
+                                id="unidadeOrigem"
                                 value={unidadeOrigem}
                                 onChange={handleUnidadeOrigemChange}
                                 className="border p-2 rounded w-full"
                             >
+                                <option value="Selecione">Selecione...</option>
                                 <option value="Kg">Kg</option>
                                 <option value="Gramas">Gramas</option>
                                 <option value="Toneladas">Toneladas</option>
@@ -189,6 +203,7 @@ const Conversor = () => {
                                 onChange={handleUnidadeDestinoChange}
                                 className="border p-2 rounded w-full"
                             >
+                                <option value="Selecione">Selecione...</option>
                                 <option value="Kg">Kg</option>
                                 <option value="Gramas">Gramas</option>
                                 <option value="Toneladas">Toneladas</option>
@@ -199,7 +214,7 @@ const Conversor = () => {
 
                     {resultadoPeso !== null && (
                         <div role="alert" className="mt-4 p-2 text-green-700 bg-green-200 border border-green-300 rounded">
-                            {valor} {unidadeOrigem} é o mesmo que {resultadoPeso} {unidadeDestino}
+                            {valorPeso} {unidadeOrigem} é o mesmo que {resultadoPeso} {unidadeDestino}
                         </div>
                     )}
 
@@ -219,8 +234,8 @@ const Conversor = () => {
                             id="valorLiquido"
                             type="number"
                             placeholder="Digite o valor"
-                            value={valor}
-                            onChange={handleValorChange}
+                            value={valorLiquido}
+                            onChange={handleValorLiquidoChange}
                             className="border p-2 rounded w-full"
                         />
                     </div>
@@ -233,9 +248,10 @@ const Conversor = () => {
                                 onChange={handleUnidadeOrigemChange}
                                 className="border p-2 rounded w-full"
                             >
+                                <option value="Selecione">Selecione...</option>
                                 <option value="Litros">Litros</option>
                                 <option value="Mililitros">Mililitros</option>
-                                <option value="Galões">Galões</option>
+                                <option value="MetrosCubicos">Metros Cubicos</option>
                             </select>
                         </div>
                         <div className="flex flex-col w-full">
@@ -246,15 +262,26 @@ const Conversor = () => {
                                 onChange={handleUnidadeDestinoChange}
                                 className="border p-2 rounded w-full"
                             >
+                                <option value="Selecione">Selecione...</option>
                                 <option value="Litros">Litros</option>
                                 <option value="Mililitros">Mililitros</option>
-                                <option value="Galões">Galões</option>
-                    </select>
-                </div>
-            </div>
+                                <option value="MetrosCubicos">Metros Cubicos</option>
+                            </select>
+                        </div>
+                    </div>
                     <button onClick={() => converter('liquidos')} className="bg-blue-500 text-white p-2 m-2 rounded w-full hover:bg-blue-600 transition duration-300">Converter</button>
+                    
+                    {resultadoLiquidos !== null && (
+                        <div role="alert" className="mt-4 p-2 text-green-700 bg-green-200 border border-green-300 rounded">
+                            {valorLiquido} {unidadeOrigem} é o mesmo que {resultadoLiquidos} {unidadeDestino}
+                        </div>
+                    )}
 
-                    {resultadoLiquidos !== null && <p className="mt-4 text-lg text-center">{valor} {unidadeOrigem} é o mesmo que {resultadoLiquidos} {unidadeDestino}</p>}
+                    {erroLiquido && (
+                        <div role="alert" className="mt-4 p-2 text-red-700 bg-red-200 border border-red-300 rounded">
+                            {erroLiquido}
+                        </div>
+                    )}
                 </div>
             </div>
 
